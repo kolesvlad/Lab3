@@ -4,23 +4,40 @@ public class Order
 {
     public List<Dish> Dishes;
     public long TotalPrice;
-    public int OrderStatus;
+    public OrderStatus OrderStatus { get; private set; }
     public Restaurant Restaurant;
     public Courier Courier;
     public Client Client;
 
-    public Order(List<Dish> dishes, long totalPrice, int orderStatus, Restaurant restaurant, Courier courier, Client client)
+    public Order(List<Dish> dishes, OrderStatus orderStatus, Restaurant restaurant, Courier courier, Client client)
     {
         Dishes = dishes;
-        TotalPrice = totalPrice;
+        TotalPrice = CalculateTotalPrice(dishes);
         OrderStatus = orderStatus;
         Restaurant = restaurant;
         Courier = courier;
         Client = client;
     }
 
-    public void UpdateOrderStatus(int newOrderStatus)
+    private long CalculateTotalPrice(List<Dish> dishes)
+    {
+        var prices = dishes.Select(dish => dish.Price).ToList();
+        var totalPrice = 0L;
+        foreach (var price in prices)
+        {
+            totalPrice += price;
+        }
+
+        return totalPrice;
+    }
+
+    public void UpdateOrderStatus(OrderStatus newOrderStatus)
     {
         OrderStatus = newOrderStatus;
     }
+}
+
+public enum OrderStatus
+{
+    Created, Sent, Delivered
 }

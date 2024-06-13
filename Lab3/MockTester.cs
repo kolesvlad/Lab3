@@ -62,7 +62,7 @@ public class MockTester
         // Імітація відправки замовлення бізнесом
         DeliveryManager.SendOrder(order);
         
-        // Імітації отримання замовлення клієнтом
+        // Імітація отримання замовлення клієнтом
         DeliveryManager.DeliverOrder(order);
     }
 
